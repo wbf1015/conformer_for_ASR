@@ -48,17 +48,18 @@ def record_log(predict, epoch, count):
     f.writelines(str(predict.tolist()))
     f.close()
 
-def cer_for_batch(predict, target, output_lengths, epoch=None, count=None):
+def cer_for_batch(predict, target, output_lengths, epoch=None, count=None, is_train=False):
     ret_list = []
     ol = output_lengths.tolist()
     for index in range(0, predict.shape[0]):
         p = predict[index]
         t = target[index]
-        p = torch.argmax(F.softmax(p, dim=1), dim=1)
+        p = torch.argmax(p, dim=1)
         p = p.tolist()
         t = t.tolist()
         p = p[:ol[index]]
-        # print(p)
+        if is_train:
+            print(p)
         # record_log(predict, epoch, count)
         p = pre_process_sentence(p)
         t = pre_process_sentence(t)

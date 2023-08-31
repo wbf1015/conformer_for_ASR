@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib
 import scipy.io.wavfile as wav
 from scipy.fftpack import dct
-from python_speech_features import logfbank
+from python_speech_features import logfbank, fbank
 
 sys.path.append('../')
 from config import get_fbank_dim
@@ -50,7 +50,7 @@ num_mfcc = 12
 ground_truth_list = []
 
 # the_max_len to padding 0
-max_len = 2048
+max_len = 3072
 
 # Enframe with Hamming window function
 def preemphasis(signal, coeff=alpha):
@@ -93,7 +93,7 @@ def get_spectrum(frames, fft_len=fft_len):
     return spectrum
 
 
-def fbank(fs, spectrum, num_filter=num_filter):
+def my_fbank(fs, spectrum, num_filter=num_filter):
     """Get mel filter bank feature from spectrum
         :param spectrum: a num_frames by fft_len/2+1 array(real)
         :param num_filter: mel filters number, default 23
@@ -155,7 +155,8 @@ def get_audio_feature(path, file_type):
     # 加载音频文件
     (rate, signal) = wav.read(path)
     # 提取fbank特征
-    fbank_feats = logfbank(signal, rate, nfilt=80)
+    fbank_feats,_ = fbank(signal, rate, nfilt=80, winlen=0.005, winstep=0.005)
+    print(fbank_feats.shape)
     global max_len
     target_shape=(max_len, num_filter)
     expanded_feats = np.zeros(target_shape)
@@ -235,7 +236,7 @@ def main():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Feature extracting .py")
     parser.add_argument('--start', type=int, help='start folder index', default=912)
-    parser.add_argument('--end', type=int, help='end folder index', default=916)
+    parser.add_argument('--end', type=int, help='end folder index', default=918)
     parser.add_argument('--type', type=str, help='train/test/dev', default='test')
     args = parser.parse_args()
     get_audio_features_train(args.start, args.end, args.type)
