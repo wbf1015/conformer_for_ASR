@@ -1,2 +1,2 @@
 # conformer_for_ASR
-Conformer net for auto apeech recognition
+Conformer net for auto speech recognition
