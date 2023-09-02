@@ -235,9 +235,9 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Feature extracting .py")
-    parser.add_argument('--start', type=int, help='start folder index', default=912)
-    parser.add_argument('--end', type=int, help='end folder index', default=918)
-    parser.add_argument('--type', type=str, help='train/test/dev', default='test')
+    parser.add_argument('--start', type=int, help='start folder index', default=121)
+    parser.add_argument('--end', type=int, help='end folder index', default=200)
+    parser.add_argument('--type', type=str, help='train/test/dev', default='train')
     args = parser.parse_args()
     get_audio_features_train(args.start, args.end, args.type)
     # readFBankData('/root/autodl-tmp/AIshell1_train/BAC009S0002W0197.npy')

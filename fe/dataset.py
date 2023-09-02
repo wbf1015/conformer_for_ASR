@@ -17,10 +17,7 @@ class AIshellData(dataset.Dataset):
 
     def __len__(self):
         file_list = os.listdir(self.base_path)
-        if self.base_path == '/root/autodl-tmp/AIshell1_test/':
-            return 160
-        else:
-            return len(file_list)
+        return len(file_list)
 
 
 
